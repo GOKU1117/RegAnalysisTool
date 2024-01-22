@@ -1,0 +1,6 @@
+
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+    LINE    REG_SZ    "C:\Users\NICS\AppData\Local\LINE\bin\LineLauncher.exe" --booting
+    MicrosoftEdgeAutoLaunch_1A5A8613F1AD0C5C14868CE67916CF2F    REG_SZ    "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --no-startup-window --win-session-start
+    GoogleChromeAutoLaunch_3CDB7E463FFCD933ACC167E3F5422DEB    REG_SZ    "C:\Program Files\Google\Chrome\Application\chrome.exe" --no-startup-window /prefetch:5
+

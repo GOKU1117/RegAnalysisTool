@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Forensics Tool Report</title>
+    <link rel="stylesheet" href="asset/dark-mode.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <link rel="stylesheet" href="asset/css/bootstrap.min.css">
+    <link rel="stylesheet" href="asset/css/mdb.min.css">
+    <link rel="stylesheet" href="asset/css/dashboard.css">
+    <link rel="stylesheet" href="asset/css/addons/datatables.min.css" rel="stylesheet">
+    <script src="js/feather.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Registry Analysis Tool 1.0.0</a>
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+            <label class="custom-control-label mr-2" for="darkSwitch" style="color:white">Dark Switch</label>
+        </div>
+        <script src="js/dark-mode-switch.js"></script>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky" id="sidebar_id">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link " href="forensics report.html">
+                                <span data-feather="home"></span> Report Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="analysis report.html">
+                                <span data-feather="book-open"></span> Analysis Report
+                            </a>
+                        </li>
+                        <script>
+                            feather.replace();
+                            var element = document.getElementById("sidebar_id");
+                            var searchParams = new URLSearchParams(window.location.search);
+                            if (searchParams.has('navpos')) {
+                                var nav_pos = parseInt(searchParams.get('navpos'));
+                                if (!isNaN(nav_pos))
+                                    element.scrollTop = nav_pos;
+                            }
+                        </script>
+                    </ul>
+                    <br /><br />
+                </div>
+            </nav>
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="display-5">Registry Analysis for SCADA</h1>
+                    <h6 class="animated fadeIn mb-3">Registry Analysis Tool refers to analyzing digital evidence related to SCADA host.</h6>
+                </div>
+                <br />
+                <div class="card bg-white" style="padding: 20px;">
+                    <h2 class="card-title">Analysis Information</h2>
+
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="start-tab" data-toggle="tab" href="#start" role="tab" aria-controls="start" aria-selected="false">Automatic Start</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="serivce-tab" data-toggle="tab" href="#service" role="tab" aria-controls="service" aria-selected="false">System Service</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="delete-tab" data-toggle="tab" href="#delete" role="tab" aria-controls="delete" aria-selected="false">Rename, Delete or Move Files</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="firewall-tab" data-toggle="tab" href="#firewall" role="tab" aria-controls="firewall" aria-selected="false">Firewall Policy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" id="case-tab" data-toggle="tab" href="#case" role="tab" aria-controls="case" aria-selected="true">All Details</a>
+                        </li>
+                    </ul>                   
+                    <div class="tab-content" id="myTabContent">              
+                        <div class="tab-pane fade" id="start" role="tabpanel" aria-labelledby="start-tab"><br />
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-sm" id="startTable">
+                                    <thead>
+                                        <tr>
+                                            <th>MITRE Enterprise ID</th>
+                                            <th>Registry Path</th>
+                                            <th>Registry Value</th>
+                                            <th>Last Write Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for imagePath, registryData in allRegistryValue.items() %}
+                                            {% if imagePath == 'SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run' %}
+                                                {% for exeFile in registryData.exeFiles %}
+                                                        <tr>
+                                                            <td>T1562</td>
+                                                            <td>{{ imagePath }}</td>
+                                                            <td>{{ exeFile }}</td>
+                                                            <td>{{ registryData.lastWriteTime }}</td>
+                                                        </tr>
+                                                   {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="service" role="tabpanel" aria-labelledby="service-tab"><br />
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-sm" id="serviceTable">
+                                    <thead>
+                                        <tr>
+                                            <th>MITRE Enterprise ID</th>
+                                            <th>Registry Path</th>
+                                            <th>Registry Value</th>
+                                            <th>Last Write Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for imagePath, registryData in allRegistryValue.items() %}
+                                            {% for exeFile in registryData.exeFiles %}
+                                                    {% if imagePath == 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services' or imagePath == 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\RunServices' %}
+                                                        {% if exeFile.strip() != '' %}
+                                                        <tr>
+                                                            <td>T1652</td>
+                                                            <td>{{ imagePath }}</td>
+                                                            <td>{{ exeFile.split('\\')[-1] }}</td>
+                                                            <td>{{ registryData.lastWriteTime }}</td>
+                                                        </tr>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="delete" role="tabpanel" aria-labelledby="delete-tab"><br />
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-sm" id="deleteTable">
+                                    <thead>
+                                        <tr>
+                                            <th>MITRE Enterprise ID</th>
+                                            <th>Registry Path</th>
+                                            <th>Registry Value</th>
+                                            <th>Last Write Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for imagePath, registryData in allRegistryValue.items() %}
+                                            {% for exeFile in registryData.exeFiles %}
+                                                    {% if imagePath == 'SYSTEM\CurrentControlSet\Control\Session Manager' %}
+                                                        {% if exeFile.strip() != '' %}
+                                                        <tr>
+                                                            <td>T1112</td>
+                                                            <td>{{ imagePath }}</td>
+                                                            <td>{{ exeFile }}</td>
+                                                            <td>{{ registryData.lastWriteTime }}</td>
+                                                        </tr>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="firewall" role="tabpanel" aria-labelledby="firewall-tab"><br />
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-sm" id="firewallTable">
+                                    <thead>
+                                        <tr>
+                                            <th>MITRE Enterprise ID</th>
+                                            <th>Registry Path</th>
+                                            <th>Registry Value</th>
+                                            <th>Last Write Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for imagePath, registryData in allRegistryValue.items() %}
+                                            {% for exeFile in registryData.exeFiles %}
+                                                    {% if imagePath == 'SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy' %}
+                                                        {% if exeFile.strip() != '' %}
+                                                        <tr>
+                                                            <td>T1562</td>
+                                                            <td>{{ imagePath }}</td>
+                                                            <td>{{ exeFile }}</td>
+                                                            <td>{{ registryData.lastWriteTime }}</td>
+                                                        </tr>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade show active" id="case" role="tabpanel" aria-labelledby="case-tab"><br />
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-sm" id="myTable">
+                                    <thead>
+                                        <tr>
+                                            <th>MITRE ID</th>
+                                            <th>Registry Path</th>
+                                            <th>Registry Value</th>
+                                            <th>Last Write Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for imagePath, registryData in allRegistryValue.items() %}
+                                                {% for exeFile in registryData.exeFiles %}
+                                                    {% if imagePath == 'SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run' or imagePath == 'SYSTEM\CurrentControlSet\Control\Session Manager' %}
+                                                            <tr>
+                                                                <td>DS0024</td>
+                                                                <td>{{ imagePath }}</td>
+                                                                <td>{{ exeFile}}</td>
+                                                                <td>{{ registryData.lastWriteTime }}</td>
+                                                            </tr>
+                                                    {% endif %}
+                                                    {% if exeFile.strip() != '' %}
+                                                        <tr>
+                                                            <td>DS0024</td>
+                                                            <td>{{ imagePath }}</td>
+                                                            <td>{{ exeFile.split('\\')[-1] }}</td>
+                                                            <td>{{ registryData.lastWriteTime }}</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script type="text/javascript" src="asset/js/jquery.min.js"></script>
+    <script type="text/javascript" src="asset/js/popper.min.js"></script>
+    <script type="text/javascript" src="asset/js/bootstrap.js"></script>
+    <script type="text/javascript" src="asset/js/mdb.min.js"></script>
+    <script type="text/javascript" src="asset/js/addons/datatables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable();
+            $('#serviceTable').DataTable();
+            $('#deleteTable').DataTable();
+            $('#firewall').DataTable();
+            $('#startTable').DataTable(); 
+        });
+    </script>
+    <script>
+        var elemScrollTop = document.getElementById("sidebar_id").scrollTop.toString();
+        document.addEventListener("DOMContentLoaded", function() {
+            var element = document.getElementById("sidebar_id");
+            element.addEventListener("scroll", function() {
+                elemScrollTop = document.getElementById("sidebar_id").scrollTop.toString();
+            });
+        });
+        $('a.nav-link').click(function(e) {
+            e.preventDefault();
+            location.href = $(this).attr('href') + "?navpos=" + elemScrollTop;
+        });
+    </script>
+</body>
+<style>
+    thead tr:first-child th {
+        text-align: center;
+        background-color: rgba(246, 247, 247, 0.779);
+    }
+</style>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Forensics Tool Report</title>
+        <link rel="stylesheet" href="asset/dark-mode.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+        <link rel="stylesheet" href="asset/css/bootstrap.min.css">
+        <link rel="stylesheet" href="asset/css/mdb.min.css">
+        <link rel="stylesheet" href="asset/css/dashboard.css">
+        <link rel="stylesheet" href="asset/css/addons/datatables.min.css" rel="stylesheet">
+        <script src="js/feather.min.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Registry Analysis Tool 1.0.0</a>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+                <label class="custom-control-label mr-2" for="darkSwitch" style="color:white">Dark Switch</label>
+            </div>
+            <script src="js/dark-mode-switch.js"></script>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                    <div class="sidebar-sticky" id="sidebar_id">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link  active" href="forensics report.html">
+                                    <span data-feather="home"></span> Report Home
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="analysis report.html">
+                                    <span data-feather="book-open"></span> Analysis Report
+                                </a>
+                            </li>
+                            <script>
+                                feather.replace();
+                                var element = document.getElementById("sidebar_id");
+                                var searchParams = new URLSearchParams(window.location.search);
+                                if (searchParams.has('navpos')) {
+                                    var nav_pos = parseInt(searchParams.get('navpos'));
+                                    if (!isNaN(nav_pos))
+                                        element.scrollTop = nav_pos;
+                                }
+                            </script>
+                        </ul>
+                        <br /><br />
+                    </div>
+                </nav>
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                    <div class="justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="display-5">Registry Analysis  for SCADA</h1>
+                        <h6 class="animated fadeIn mb-3">Registry Analysis Tool refers to analyzing digital evidence related to SCADA host.</h6>
+                    </div>
+                <br />
+        <div class="card bg-white" style="padding: 20px;">
+            <h2 class="card-title">Case Information</h2>
+
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="case-tab" data-toggle="tab" href="#case" role="tab" aria-controls="case" aria-selected="true">Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="device-list-tab" data-toggle="tab" href="#device" role="tab" aria-controls="device" aria-selected="false">Device details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="run-log-tab" data-toggle="tab" href="#run" role="tab" aria-controls="run" aria-selected="false">Script run log</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="files-list-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">Processed files list</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="case" role="tabpanel" aria-labelledby="case-tab"><br />
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-sm" width=70%>
+                            <tbody>
+                            <tr><td>Extraction location</td><td></span>
+                            </td></tr><tr><td>Report directory</td><td></td></tr>
+                            <tr><td>Processing time</td><td></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="note note-primary mb-4">
+                            All dates and times are in UTC unless noted otherwise!
+                    </p>
+                </div>
+                <div class="tab-pane fade" id="device" role="tabpanel" aria-labelledby="device-tab"><br />
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-sm" width=70%>
+                            <tbody>
+                                <tr><td>Windows event log</td><td></span>
+                                </td></tr><tr><td>registry</td><td></td></tr>
+                                <tr><td>jumplist files</td><td></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade text-monospace" id="run" role="tabpanel" aria-labelledby="script-run-tab"><br />Procesing started. Please wait. This may take a few minutes...<br>
+                    
+                </div>
+                <div class="tab-pane fade" id="files" role="tabpanel" aria-labelledby="profile-tab"><br />
+                <br><br>
+                </div>
+            </div>
+        </div>
+        <br /><br /><br />
+        <div class="text-center">
+            <br />
+            <div class="card bg-white mb-3" style="max-width: 500px; margin:auto">
+                <div class="row no-gutters">
+                    <center>
+                        <div class="col-md-4">
+                            <img src="logo.jpg" class="card-img" alt="DFIR">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">Thank you for using Forensics Tool</h5>
+                                <p class="card-text">
+                                    Support open source and report any artifact 
+                                </p>
+                                <p class="card-text fadeIn"><small class="text-muted">Cindy Wang</small></p>
+                            </div>
+                        </div>
+                    </center>
+                </div>
+            </div>
+        <br /><br />
+        </div>
+            <script type="text/javascript" src="asset/js/jquery.min.js"></script>
+            <script type="text/javascript" src="asset/js/popper.min.js"></script>
+            <script type="text/javascript" src="asset/js/bootstrap.js"></script>
+            <script type="text/javascript" src="asset/js/mdb.min.js"></script>
+            <script type="text/javascript" src="asset/js/addons/datatables.min.js"></script>
+            <script>feather.replace()</script>
+            <script>
+                var elemScrollTop = document.getElementById("sidebar_id").scrollTop.toString();
+                document.addEventListener("DOMContentLoaded", function() {
+                    var element = document.getElementById("sidebar_id");
+                    element.addEventListener("scroll", function() {
+                        elemScrollTop = document.getElementById("sidebar_id").scrollTop.toString();
+                    });
+                });
+                $('a.nav-link').click(function(e) {
+                    e.preventDefault();
+                    location.href = $(this).attr('href') + "?navpos=" + elemScrollTop;
+                });
+            </script>
+        </div>
+    </body>
+</html>
